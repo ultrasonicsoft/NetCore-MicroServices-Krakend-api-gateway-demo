@@ -11,9 +11,27 @@
       "backend": [
         {
           "host": [
-            "https://localhost:5001"
+            "http://localhost:5001"
           ],
           "url_pattern": "/api/users",
+          "is_collection": "true",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json"
+        }
+      ],
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1
+    },
+    {
+      "endpoint": "/products",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5002"
+          ],
+          "url_pattern": "/api/products",
           "is_collection": "true",
           "extra_config": {},
           "sd": "static",
