@@ -1,0 +1,44 @@
+{
+  "version": 2,
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "host": [
+    "http://fake_api:8080"
+  ],
+  "endpoints": [
+    {
+      "endpoint": "/users",
+      "backend": [
+        {
+          "host": [
+            "https://localhost:5001"
+          ],
+          "url_pattern": "/api/users",
+          "is_collection": "true",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json"
+        }
+      ],
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1
+    }
+  ],
+  "extra_config": {
+    "github_com/devopsfaith/krakend-cors": {
+      "allow_methods": [
+        "GET",
+        "HEAD",
+        "POST",
+        "PUT",
+        "DELETE",
+        "CONNECT",
+        "OPTIONS",
+        "TRACE",
+        "PATCH"
+      ]
+    }
+  },
+  "output_encoding": "json"
+}
