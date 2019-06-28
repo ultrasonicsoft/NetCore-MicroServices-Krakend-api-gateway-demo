@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using UsersService.Services;
 using UsersService.ViewModels;
 
 namespace UsersService.Controllers
@@ -11,60 +9,55 @@ namespace UsersService.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUsersDataService userService;
+        public UsersController(IUsersDataService userService)
+        {
+            this.userService = userService;
+        }
+
         // GET api/users
         [HttpGet]
         public ActionResult<IEnumerable<UserModel>> Get()
         {
-            var users = new List<UserModel> {
-                new UserModel
-                {
-                    Id = 1,
-                    FirstName = "User1",
-                    LastName = "Mocked",
-                    Email = "user1@something.com"
-                },
-                new UserModel
-                {
-                    Id = 2,
-                    FirstName = "User2",
-                    LastName = "Mocked",
-                    Email = "user2@something.com"
-                },
-                new UserModel
-                {
-                    Id = 3,
-                    FirstName = "User3",
-                    LastName = "Mocked",
-                    Email = "user3@something.com"
-                },
-            };
-
-            return users;
+            return new ObjectResult(userService.GetAllUsers());
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        // GET api/user/5
+        [HttpGet("{userId}")]
+        public ActionResult<UserModel> Get(int userId)
         {
-            return "value";
+            return new ObjectResult(userService.GetUserById(userId));
         }
 
-        // POST api/values
+        // POST api/users
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<UserModel> Post([FromBody] UserModel newUser)
         {
+            return new ObjectResult(userService.CreateUser(newUser));
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/users/5
+        [HttpPut("{userId}")]
+        public ActionResult<UserModel> Put(int userId, [FromBody] UserModel dirtyUser)
         {
+            var foundUser = userService.UpdateUser(userId, dirtyUser);
+            if (foundUser == null)
+            {
+                return new NotFoundObjectResult(dirtyUser);
+            }
+            return foundUser;
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE api/users/5
+        [HttpDelete("{userId}")]
+        public ActionResult Delete(int userId)
         {
+            var isDeleted = userService.DeleteUser(userId);
+            if (!isDeleted)
+            {
+                return new NotFoundObjectResult(userId);
+            }
+            return new OkResult();
         }
     }
 }

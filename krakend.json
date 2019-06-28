@@ -25,6 +25,65 @@
       "concurrent_calls": 1
     },
     {
+      "endpoint": "/users/{userId}",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5001"
+          ],
+          "url_pattern": "/api/users/{userId}",
+          "extra_config": {},
+          "sd": "static",
+          "encoding": "json"
+        }
+      ],
+      "extra_config": {},
+      "output_encoding": "json",
+      "concurrent_calls": 1
+    },
+    {
+      "endpoint": "/users",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5001"
+          ],
+          "url_pattern": "/api/users",
+          "encoding": "json"
+        }
+      ]
+    },
+    {
+      "endpoint": "/users/{userId}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5001"
+          ],
+          "url_pattern": "/api/users/{userId}",
+          "encoding": "json"
+        }
+      ]
+    },
+    {
+      "endpoint": "/users/{userId}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5001"
+          ],
+          "url_pattern": "/api/users/{userId}",
+          "encoding": "no-op"
+        }
+      ]
+    },
+    {
       "endpoint": "/products",
       "backend": [
         {
