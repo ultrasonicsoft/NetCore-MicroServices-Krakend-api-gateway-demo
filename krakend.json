@@ -92,14 +92,65 @@
           ],
           "url_pattern": "/api/products",
           "is_collection": "true",
-          "extra_config": {},
-          "sd": "static",
           "encoding": "json"
         }
       ],
-      "extra_config": {},
-      "output_encoding": "json",
-      "concurrent_calls": 1
+      "output_encoding": "json"
+    },
+    {
+      "endpoint": "/products/{productId}",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5002"
+          ],
+          "url_pattern": "/api/products/{productId}",
+          "encoding": "json"
+        }
+      ],
+      "output_encoding": "json"
+    },
+    {
+      "endpoint": "/products",
+      "method": "POST",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5002"
+          ],
+          "url_pattern": "/api/products",
+          "encoding": "json"
+        }
+      ],
+      "output_encoding": "json"
+    },
+    {
+      "endpoint": "/products/{productId}",
+      "method": "PUT",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5002"
+          ],
+          "url_pattern": "/api/products/{productId}",
+          "encoding": "json"
+        }
+      ],
+      "output_encoding": "json"
+    },
+    {
+      "endpoint": "/products/{productId}",
+      "method": "DELETE",
+      "backend": [
+        {
+          "host": [
+            "http://localhost:5002"
+          ],
+          "url_pattern": "/api/products/{productId}",
+          "encoding": "no-op"
+        }
+      ],
+      "output_encoding": "no-op"
     }
   ],
   "extra_config": {

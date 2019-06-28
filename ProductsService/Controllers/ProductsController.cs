@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ProductsService.Services;
+using ProductsService.ViewModels;
 
 namespace ProductsService.Controllers
 {
@@ -10,36 +12,55 @@ namespace ProductsService.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        // GET api/values
+        private readonly IProductsDataService service;
+        public ProductsController(IProductsDataService service)
+        {
+            this.service = service;
+        }
+
+        // GET api/products
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<ProductModel>> Get()
         {
-            return new string[] { "product1", "product2" };
+            return new ObjectResult(service.GetAllProducts());
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        // GET api/products/5
+        [HttpGet("{productId}")]
+        public ActionResult<ProductModel> Get(int productId)
         {
-            return "value";
+            return new ObjectResult(service.GetProductById(productId));
         }
 
-        // POST api/values
+        // POST api/products
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<ProductModel> Post([FromBody] ProductModel newProduct)
         {
+            return new ObjectResult(service.AddProduct(newProduct));
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/products/5
+        [HttpPut("{productId}")]
+        public ActionResult<ProductModel> Put(int productId, [FromBody] ProductModel dirtyProduct)
         {
+            var foundProduct = service.UpdateProduct(productId, dirtyProduct);
+            if(foundProduct == null)
+            {
+                return new NotFoundObjectResult(productId);
+            }
+            return foundProduct;
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DELETE api/products/5
+        [HttpDelete("{productId}")]
+        public ActionResult Delete(int productId)
         {
+            var isDeleted = service.DeleteProduct(productId);
+            if (!isDeleted)
+            {
+                return new NotFoundObjectResult(productId);
+            }
+            return Ok();
         }
     }
 }
