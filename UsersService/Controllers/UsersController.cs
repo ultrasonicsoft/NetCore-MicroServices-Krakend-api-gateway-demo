@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using UsersService.ViewModels;
 
 namespace UsersService.Controllers
 {
@@ -10,11 +11,35 @@ namespace UsersService.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        // GET api/values
+        // GET api/users
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<UserModel>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var users = new List<UserModel> {
+                new UserModel
+                {
+                    Id = 1,
+                    FirstName = "User1",
+                    LastName = "Mocked",
+                    Email = "user1@something.com"
+                },
+                new UserModel
+                {
+                    Id = 2,
+                    FirstName = "User2",
+                    LastName = "Mocked",
+                    Email = "user2@something.com"
+                },
+                new UserModel
+                {
+                    Id = 3,
+                    FirstName = "User3",
+                    LastName = "Mocked",
+                    Email = "user3@something.com"
+                },
+            };
+
+            return users;
         }
 
         // GET api/values/5
